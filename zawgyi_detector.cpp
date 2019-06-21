@@ -17,17 +17,17 @@
 #include <cstdint>
 #include <cstring>
 #include <limits>
-#include <glog/logging.h>
+// #include <glog/logging.h>
 #include <unicode/utf8.h>
 
-#include "public/myanmartools.h"
+#include "public/detectzawgyi.h"
 #include "zawgyi_detector-impl.h"
 
 namespace {
 const uint8_t kModelData[] = {
 #include "zawgyi_model_data.inc"
 };
-constexpr size_t kModelSize = sizeof kModelData;
+//constexpr size_t kModelSize = sizeof kModelData;
 }  // namespace
 
 using namespace google_myanmar_tools;
@@ -97,16 +97,16 @@ BinaryMarkovClassifier::BinaryMarkovClassifier(const uint8_t* binary_ptr) {
   magic_number = BigEndian::loadInt64(data_ptr);
   data_ptr += sizeof(magic_number);
 
-  CHECK_EQ(BINARY_TAG, magic_number);
+  // CHECK_EQ(BINARY_TAG, magic_number);
 
   version = BigEndian::loadInt32(data_ptr);
   data_ptr += sizeof(version);
 
-  CHECK_EQ(VERSION, version);
+  // CHECK_EQ(VERSION, version);
 
   model_size_ = BigEndian::loadInt16(data_ptr);
   data_ptr += sizeof(model_size_);
-  VLOG(2) << "BinaryMarkovClassifier size = " << model_size_;
+  // VLOG(2) << "BinaryMarkovClassifier size = " << model_size_;
 
   model_array_ = new float[model_size_ * model_size_];
 
@@ -163,7 +163,7 @@ ZawgyiUnicodeMarkovModel::ZawgyiUnicodeMarkovModel(const uint8_t* data_models) {
   magic_number = BigEndian::loadInt64(input_ptr);
   input_ptr += sizeof(magic_number);
 
-  CHECK_EQ(BINARY_TAG, magic_number);
+  // CHECK_EQ(BINARY_TAG, magic_number);
 
   int32_t version = BigEndian::loadInt32(input_ptr);
   input_ptr += sizeof(version);
@@ -172,11 +172,11 @@ ZawgyiUnicodeMarkovModel::ZawgyiUnicodeMarkovModel(const uint8_t* data_models) {
     // No SSV field
     ssv_ = 0;
   } else {
-    CHECK_EQ(2, version);
+    // CHECK_EQ(2, version);
     ssv_ = BigEndian::loadInt32(input_ptr);
     input_ptr += sizeof(ssv_);
-    CHECK_GE(ssv_, 0);
-    CHECK_LT(ssv_, SSV_COUNT);
+    // CHECK_GE(ssv_, 0);
+    // CHECK_LT(ssv_, SSV_COUNT);
   }
 
   classifier_ = new BinaryMarkovClassifier(input_ptr);
@@ -259,9 +259,9 @@ int16_t ZawgyiUnicodeMarkovModel::GetIndexForCodePoint(char32_t cp) const {
 
 // Reads standard detection modes from embedded data.
 ZawgyiDetector::ZawgyiDetector() {
-  CHECK(kModelData) << " null model_data loaded";
-  CHECK(kModelSize > 0) << " model size = " << kModelSize;
-  VLOG(2) << "model_data size = " << kModelSize;
+  // CHECK(kModelData) << " null model_data loaded";
+  // CHECK(kModelSize > 0) << " model size = " << kModelSize;
+  // VLOG(2) << "model_data size = " << kModelSize;
   // TODO: Check kModelSize when reading the model?
   model_ = new ZawgyiUnicodeMarkovModel(kModelData);
 }
