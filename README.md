@@ -8,9 +8,9 @@ CMake toolchain is here: https://github.com/leetal/ios-cmake
 
 ## Build for iOS<br/>
 Build with Xcode 10.2.1<br/>
-Just run script `./build-ios.sh` library and header file are generated in `./out.ios` directory 
+Just run script `./build-ios.sh`, library and header file are generated in `./out/ios` directory 
 
 ## Build for Android<br/>
 Build with android-ndk-r20<br/>
 libicundk was already built from original source code here https://gitlab.com/koying/libicundk<br/>
-Just run script `./build-android.sh` library and header file are generated in `./out/android` directory 
+Just run script `./build-android.sh`, library and header file are generated in `./out/android` directory 
